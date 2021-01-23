@@ -1,0 +1,23 @@
+{
+  "name": "shifumi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "shifumi.js",
+  "dependencies": {
+    "enquirer": "^2.3.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manonlvnr/shifumi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manonlvnr/shifumi/issues"
+  },
+  "homepage": "https://github.com/manonlvnr/shifumi#readme"
+}
