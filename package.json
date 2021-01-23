@@ -4,7 +4,8 @@
   "description": "",
   "main": "shifumi.js",
   "dependencies": {
-    "enquirer": "^2.3.6"
+    "enquirer": "^2.3.6",
+    "eslint": "^7.18.0"
   },
   "devDependencies": {},
   "scripts": {
