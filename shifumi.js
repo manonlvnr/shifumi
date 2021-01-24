@@ -21,7 +21,7 @@ async function getUserChoice() {
 
 function choose() {
   var index = Math.floor(Math.random() * choices.length);
-  console.log('choices[index]: ', choices);
+  //console.log('choices[index]: ', choices);
   return choices[index];
 }
 
@@ -29,6 +29,18 @@ async function main() {
   const playerResponse = await getUserChoice();
   const computerResponse = choose();
   console.log('Computer response :', computerResponse);
+  let result;
+
+  if (playerResponse === computerResponse) {
+    result = 'Equality';
+  } else if (
+    (playerResponse === 'rock' && computerResponse === 'cisors') ||
+    (playerResponse === 'cisors' && computerResponse === 'paper') ||
+    (playerResponse === 'paper' && computerResponse === 'rock')
+  ) {
+    result = 'You won !';
+  } else result = 'You lose ...';
+  console.log('Round result :', result);
 }
 
 main();
