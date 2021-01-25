@@ -1,6 +1,4 @@
-// étape 1 choix pierre/feuille/ciseaux
-
-const { Select } = require('enquirer'); //require = librairie et entre parenthèse = API de la librairie
+const { Select } = require('enquirer');
 const choices = ['rock', 'paper', 'cisors'];
 
 async function getUserChoice() {
@@ -19,18 +17,12 @@ async function getUserChoice() {
   return response;
 }
 
-function choose() {
+function getRundomComputerChoice() {
   var index = Math.floor(Math.random() * choices.length);
-  //console.log('choices[index]: ', choices);
   return choices[index];
 }
-
-async function main() {
-  const playerResponse = await getUserChoice();
-  const computerResponse = choose();
-  console.log('Computer response :', computerResponse);
+function getResult(playerResponse, computerResponse) {
   let result;
-
   if (playerResponse === computerResponse) {
     result = 'Equality';
   } else if (
@@ -41,6 +33,12 @@ async function main() {
     result = 'You won !';
   } else result = 'You lose ...';
   console.log('Round result :', result);
+  return result;
+}
+async function main() {
+  const playerResponse = await getUserChoice();
+  const computerResponse = getRundomComputerChoice();
+  const result = getResult();
 }
 
 main();
