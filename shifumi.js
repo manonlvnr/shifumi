@@ -21,24 +21,53 @@ function getRundomComputerChoice() {
   var index = Math.floor(Math.random() * choices.length);
   return choices[index];
 }
-function getResult(playerResponse, computerResponse) {
-  let result;
+
+let playerWinRound = 'Player wins this round!';
+let computerWinRound = 'Computer wins this round!';
+let draw = 'Draw!';
+
+function getRoundResult(playerResponse, computerResponse) {
   if (playerResponse === computerResponse) {
-    result = 'Equality';
+    return draw;
   } else if (
     (playerResponse === 'rock' && computerResponse === 'cisors') ||
     (playerResponse === 'cisors' && computerResponse === 'paper') ||
     (playerResponse === 'paper' && computerResponse === 'rock')
   ) {
-    result = 'You won !';
-  } else result = 'You lose ...';
-  console.log('Round result :', result);
-  return result;
+    return playerWinRound;
+  } else return computerWinRound;
 }
+let round = 0;
+let playerScore = 0;
+let computerScore = 0;
+let playerWinGame = 'Player wins the game! Congratulations!';
+let computerWinGame = 'Computer wins the game! Congratulations!';
+
+function getRoundScore(resultRound) {
+  round++;
+  if (resultRound === playerWinRound) {
+    return playerScore++;
+  } else if (resultRound === draw) {
+    return playerScore++ && computerScore++;
+  } else {
+    return computerScore++;
+  }
+}
+
+function getFinalScore(playerScore, computerScore) {
+  if (playerScore === 3) {
+    return playerWinGame;
+  } else if (computerScore === 3) {
+    return computerWinGame;
+  }
+}
+
 async function main() {
   const playerResponse = await getUserChoice();
   const computerResponse = getRundomComputerChoice();
-  const result = getResult();
+  console.log('computer choice: ', getRundomComputerChoice());
+  const roundResult = getRoundResult();
+  console.log('round result :', getRoundResult());
 }
 
 main();
