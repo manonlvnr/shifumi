@@ -1,11 +1,14 @@
+// import { getRoundResult, getFinalScore } from './score';
+const { getRoundResult, getFinalScore } = require('./score');
 const { Select } = require('enquirer');
-const choices = ['rock', 'paper', 'cisors'];
+
+const CHOICES = ['rock', 'paper', 'cisors'];
 
 async function getUserChoice() {
   const prompt = new Select({
     name: 'element',
     message: 'chose your element',
-    choices: choices.slice(),
+    choices: CHOICES.slice(),
   });
 
   const response = await prompt
@@ -18,56 +21,45 @@ async function getUserChoice() {
 }
 
 function getRundomComputerChoice() {
-  var index = Math.floor(Math.random() * choices.length);
-  return choices[index];
+  var index = Math.floor(Math.random() * CHOICES.length);
+  return CHOICES[index];
 }
 
-let playerWinRound = 'Player wins this round!';
-let computerWinRound = 'Computer wins this round!';
-let draw = 'Draw!';
+async function continueToPlay() {
+  const prompt = new Select({
+    name: 'continueToPlay',
+    message: 'Do you want to play again ?',
+    choices: ['yes', 'no'],
+  });
 
-function getRoundResult(playerResponse, computerResponse) {
-  if (playerResponse === computerResponse) {
-    return draw;
-  } else if (
-    (playerResponse === 'rock' && computerResponse === 'cisors') ||
-    (playerResponse === 'cisors' && computerResponse === 'paper') ||
-    (playerResponse === 'paper' && computerResponse === 'rock')
-  ) {
-    return playerWinRound;
-  } else return computerWinRound;
-}
-let round = 0;
-let playerScore = 0;
-let computerScore = 0;
-let playerWinGame = 'Player wins the game! Congratulations!';
-let computerWinGame = 'Computer wins the game! Congratulations!';
-
-function getRoundScore(resultRound) {
-  round++;
-  if (resultRound === playerWinRound) {
-    return playerScore++;
-  } else if (resultRound === draw) {
-    return playerScore++ && computerScore++;
+  const response = await prompt
+    .run()
+    .then((answer) => {
+      return answer;
+    })
+    .catch(console.error);
+  if (response === 'yes') {
+    return true;
   } else {
-    return computerScore++;
-  }
-}
-
-function getFinalScore(playerScore, computerScore) {
-  if (playerScore === 3) {
-    return playerWinGame;
-  } else if (computerScore === 3) {
-    return computerWinGame;
+    process.exit(0);
   }
 }
 
 async function main() {
-  const playerResponse = await getUserChoice();
-  const computerResponse = getRundomComputerChoice();
-  console.log('computer choice: ', getRundomComputerChoice());
-  const roundResult = getRoundResult();
-  console.log('round result :', getRoundResult());
+  let score = { player: 0, computer: 0, roundPlayed: 0 };
+  let play = true;
+  while (play) {
+    const playerResponse = await getUserChoice();
+    const computerResponse = getRundomComputerChoice();
+    console.log('computer choice: ', computerResponse);
+    getRoundResult(playerResponse, computerResponse, score);
+    if (score.player === 3 || score.computer === 3) {
+      await continueToPlay();
+      console.log('\n\n\n');
+      score = { player: 0, computer: 0, roundPlayed: 0 };
+    }
+  }
+  getFinalScore(score);
 }
 
 main();
